@@ -1,0 +1,7 @@
+Name	samAccountName	accountPassword	domain	ouPath	addToGroup	createGroup	groupOU	GroupType	addGroupToGroup	createOUName	createOUPath
+svc_user1	svc_user1	Password123!	vlab.local	OU=LAB_Users,OU=LAB	SVC_Admins,SVC_Users	SVC_Admins	OU=LAB_Groups,OU=LAB	Global	APP_Admins	LAB	DC=vlab,DC=local
+svc_user2	svc_user2	Password123!	vlab.local	OU=LAB_Users,OU=LAB	SVC_Admins	SVC_Users	OU=LAB_Groups,OU=LAB	Global		LAB_Groups	OU=LAB,DC=vlab,DC=local
+app_user1	app_user1	Password123!	vlab.local	OU=LAB_Users,OU=LAB	APP_Admins	APP_Admins	OU=LAB_Groups,OU=LAB	Global		LAB_Users	OU=LAB,DC=vlab,DC=local
+app_user2	app_user2	Password123!	vlab.local	OU=LAB_Users,OU=LAB		APP_Users	OU=LAB_Groups,OU=LAB	Global			
+adbind_user1	adbind_user2	Password123!	vlab.local	OU=LAB_Users,OU=LAB	ADBIND_Users,SVC_Admins,SVC_Users	ADBIND_Users	OU=LAB_Groups,OU=LAB	Global			
+adbund_user2	adbund_user3	Password123!	vlab.local	OU=LAB_Users,OU=LAB							
