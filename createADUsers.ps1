@@ -142,18 +142,30 @@ $name="ActiveDirectory"
       Write-Host "Group $($item.createGroup) created!
 				" -ForegroundColor Green
     }
-	   }
-	Sleep 2
+	   
+
 # Setup Nested Groups
-# Import CSV
-    $groupNameSplit = @()
+    # Split comma separated groups and only read lines that have an entry in addToGroup column
 	$groupNameSplit = $item.addGroupToGroup.Split(',') |
-	Where-Object {$item.addGroupToGroup}
-	ForEach ($group In $groupNameSplit) 
-	{
-	Add-ADGroupMember -Identity $group -Member $item.createGroup;
+	Where-Object {$item.addGroupToGroup}	
+			ForEach ($group In $groupNameSplit) 
+				{
+# Check if the Group is already a member of the group
+	$groupIsMember = (Get-ADGroupMember -Identity $group).name -contains "$($item.createGroup)"
+			If ($groupIsMember -eq $true)
+				{
+				Write-Host "Group $($item.createGroup) is already a member of $($group). Add to Group skipped!
+			" -ForegroundColor Red
 		}
-   
+	else
+		{
+	Add-ADGroupMember -Identity $group -Member $item.createGroup;
+	Write-Host "Group $($item.createGroup) added to group $($group)!
+				" -ForegroundColor Green
+					}
+					}
+   }
+  
 		Write-Host "Group Creation Complete
 			" -ForegroundColor Green 
 			
@@ -183,7 +195,7 @@ $name="ActiveDirectory"
 	else
 		{
 # Create The User  
-	$userPrincinpal = $item.samAccountName + "@" + $item.domainName
+	$userPrincinpal = $item.samAccountName + "@" + $item.domain
 	New-ADUser -Name $item.Name `
 	-Path  ($($item.ouPath) + "," + $($searchbase)) `
 	-SamAccountName  $item.samAccountName `
@@ -196,9 +208,9 @@ $name="ActiveDirectory"
 				" -ForegroundColor Green
 			}
 # Split comma separated groups and only read lines that have an entry in addToGroup column
-	$groupNameSplit = $item.addToGroup.Split(',') |
+	$userGroupNameSplit = $item.addToGroup.Split(',') |
 	Where-Object {$item.addToGroup}	
-			ForEach ($group In $groupNameSplit) 
+			ForEach ($group In $userGroupNameSplit) 
 				{
 # Check if the User is already a member of the group
 	$userIsMember = (Get-ADGroupMember -Identity $group).name -contains "$($item.samAccountName)"
