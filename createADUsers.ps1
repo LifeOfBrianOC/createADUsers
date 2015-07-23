@@ -116,7 +116,7 @@ $name="ActiveDirectory"
 				" -ForegroundColor Yellow
 
 # Get Domain Base Path
-	$searchbase = Get-ADDomain | ForEach {  $_.DistinguishedName }
+	$searchbase = Get-ADDomainController | ForEach {  $_.DefaultPartition }
   
 # Import CSV and only read lines that have an entry in createGroup column
 	$csv = @()
